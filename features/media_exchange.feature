@@ -1,24 +1,53 @@
-feature: 
-As a usuario
-I want to store and remove media from history
-So that I can control the media I see in my history
+Feature: Envio de mídia
+    As a usuário
+    I want to enviar e receber mídias
+    So that eu possa compartilhar mídias com outros usuários
 
-Scenario: Removes media from conversation history
-Given os usuários “Bia” e “Letícia” trocaram mensagens
-And “Leticia” enviou a mídia “foto.png” para “Bia”
-And “Bia” fez o download da mídia “foto.png” enviada por “Letícia”
-When “Bia” solicita ao sistema que remova a mídia “foto.png”  do seu histórico de conversa
-And o sistema para de armazenar a mídia “foto.png” para “Bia”
-And o sistema para de armazenar para “Bia” a mensagem que continha uma referência para “foto.png”
-Then a mídia “foto.png” foi removida do histórico de conversa entre “Bia” e “Letícia”
+Scenario: Envio de mídia bem sucedido
+    Given o usuário "Bia" está na página "Conversa com Leticia"
+    And "Bia" vê a opção "Enviar mídia"
+    When "Bia" seleciona "Enviar mídia"
+    And "Bia" seleciona a mídia "foto.png" com tamanho de "5mb"
+    Then "Bia" vê a mensagem de "Mídia enviada!"
 
-Scenario: Store media for a user
-Given os usuários “Bia” e “Letícia” trocaram mensagens
-And “Leticia” enviou uma referência à mídia “foto.png” para “Bia”
-And o sistema salva a referência à mídia “foto.png”
-When “Bia” solicita ao sistema que faça o donload da mídia “foto.png”
-Then o sistema armazena a mídia “foto.png” para “Bia”
-And a mídia “foto.png” pode ser acessada por “Bia”
-Then "Bia" has access to "foto.png"
+Scenario: Envio de mídia mal sucedido
+    Given o usuário "Bia" está na página "Conversa com Leticia"
+    And "Bia" vê a opção "Enviar mídia"
+    When "Bia" seleciona "Enviar mídia" 
+    And "Bia" seleciona a mídia "foto.png" com tamanho de "6mb"
+    Then "Bia" vê a mensagem de "Erro!"
 
-Scenario: Remove media for single user
+Scenario: Remoção bem sucedida de mídia do histórico
+    Given o usuário "Leticia" está na página "Conversa com Bia"
+    And "Letícia" vê "2" mídias: "foto.png" e "audio.mp3"
+    When "Leticia" seleciona "foto.png"
+    And "Leticia" seleciona "Excluir"
+    And "Leticia" seleciona "Confirmar"
+    Then "Leticia" vê a mensagem de "Mídia excluída!"
+    And "Letícia" vê "1" mídia: "audio.mp3"
+
+Scenario: Remoção mal sucedida de mídia do histórico
+    Given o usuário "Leticia" está na página "Conversa com Bia"
+    And "Letícia" vê "2" mídias: "foto.png" e "audio.mp3"
+    When "Leticia" seleciona "foto.png"
+    And "Leticia" seleciona "Excluir"
+    And "Leticia" seleciona "Cancelar"
+    Then "Leticia" vê a mensagem de "Operação cancelada"
+    And "Letícia" vê "2" mídias: "foto.png" e"audio.mp3"
+    
+Scenario: Recebimento de mídia bem sucedido
+    Given o usuário "Leticia" está na página "Conversa com Bia"
+    And "Leticia" vê a opção "Fazer download de mídia"
+    When "Leticia" seleciona "Fazer download de mídia"
+    And "Leticia" seleciona "Confirmar"
+    Then "Leticia" vê a mensagem "Download concluído com sucesso" 
+    And "Leticia" vê a mídia "foto.png"
+
+Scenario: Recebimento de mídia bem sucedido
+    Given o usuário "Leticia" está na página "Conversa com Bia"
+    And "Leticia" vê a opção "Fazer download de mídia"
+    When "Leticia" seleciona "Fazer download de mídia"
+    And "Leticia" seleciona "Cancelar"
+    Then "Leticia" vê a mensagem "Operação cancelada" 
+    And "Leticia" vê a mídia "foto.png"
+
