@@ -29,12 +29,15 @@ export default class ContactsDatabase {
         return this.contacts.find(contact => contact.id === contactId);
     }
 
-    // Método para remover um contato com base no ID
+    // Método para remover um contato com base no ID ainda nn pega 
     deleteContact(contactId: string) {
-        this.contacts = this.contacts.filter(contact => contact.id !== contactId);
+        const index = this.contacts.findIndex(contact => contact.id === contactId);
+        if (index !== -1) {
+            this.contacts.splice(index, 1);
+        }
     }
 
-     // Método para obter todos os contatos ordenados por nome em ordem alfabética
+    // Método para obter todos os contatos ordenados por nome em ordem alfabética
     getAllContacts() {    
     return this.contacts.slice().sort((a, b) => a.name.localeCompare(b.name));
 }

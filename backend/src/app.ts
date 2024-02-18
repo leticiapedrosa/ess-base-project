@@ -49,7 +49,7 @@ app.get('/api/contacts/:id/info', async (req, res, next) => {
   }
 });
 
-//Rota para deletar um contato
+//Rota para deletar um contato ainda nn pega
 app.delete('/api/contacts/:id/info/delete', async (req, res, next) => {
   try {
     const contactId = req.params.id;
