@@ -23,7 +23,6 @@ app.use(
 
 setupRoutes(app);
 
-
 // Rota para obter lista de contatos
 app.get('/api/contacts', async (req, res, next) => {
   try {
@@ -37,7 +36,7 @@ app.get('/api/contacts', async (req, res, next) => {
 });
 
 // Rota para obter informações de um contato específico
-app.get('/api/contacts/:id/info', async (req, res, next) => {
+app.get('/api/contacts/:id', async (req, res, next) => {
   try {
     const contactId = req.params.id;
     const contactsDatabase = ContactsDatabase.getInstance();
@@ -54,7 +53,7 @@ app.get('/api/contacts/:id/info', async (req, res, next) => {
 });
 
 //Rota para deletar um contato ainda nn pega
-app.delete('/api/contacts/:id/info/delete', async (req, res, next) => {
+app.delete('/api/contacts/delete/:id', async (req, res, next) => {
   try {
     const contactId = req.params.id;
     const contactsDatabase = ContactsDatabase.getInstance();

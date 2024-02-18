@@ -31,11 +31,9 @@ export default class ContactsDatabase {
 
     // Método para remover um contato com base no ID ainda nn pega 
     deleteContact(contactId: string) {
-        const index = this.contacts.findIndex(contact => contact.id === contactId);
-        if (index !== -1) {
-            this.contacts.splice(index, 1);
-        }
-    }
+        this.contacts = this.contacts.filter(contact => contact.id !== contactId);
+        return this.contacts;
+    }    
 
     // Método para obter todos os contatos ordenados por nome em ordem alfabética
     getAllContacts() {    
