@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+</head>
+<body>
+    <h1>Chat</h1>
+    <div class="main">
+        <div class="name">
+            <input
+                type="text"
+                id="name-input"
+                class="name-input"
+                value="anonymous"
+                maxlength="20"
+            >
+        </div>
+
+        <ul class="message-container" id="message-container">
+            <li class="message-left">
+                <p class="message">
+                </p>
+            </li>
+
+            <li class="message-right">
+                <p class="message">
+                </p>
+            </li>
+        </ul>
+
+        <form id="message-form" class="message-form">
+            <input type="text" name="message" id="message-input" class="message-input">
+            <button type="submit" class="send-button">
+            </button>
+        </form>
+
+        <form id="file-form" class="file-form">
+            <input type="file" name="file" id="file-input" class="file-input">
+            <button type="submit" class="file-button">
+            </button>
+        </form>
+
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="./client.js"></script>   
+</body>
+</html>
