@@ -24,8 +24,13 @@ export default class ContactsDatabase {
         this.contacts.push(contact);
     }
 
+    // Método para obter um contato pelo ID
+    getContactById(contactId: string) {
+        return this.contacts.find(contact => contact.id === contactId);
+    }
+
     // Método para remover um contato com base no ID
-    removeContact(contactId: string) {
+    deleteContact(contactId: string) {
         this.contacts = this.contacts.filter(contact => contact.id !== contactId);
     }
 

@@ -32,6 +32,38 @@ app.get('/api/contacts', async (req, res, next) => {
   }
 });
 
+// Rota para obter informações de um contato específico
+app.get('/api/contacts/:id/info', async (req, res, next) => {
+  try {
+    const contactId = req.params.id;
+    const contactsDatabase = ContactsDatabase.getInstance();
+    const contact = contactsDatabase.getContactById(contactId); // Implemente o método getContactById na classe ContactsDatabase
+
+    if (!contact) {
+      return res.status(404).json({ message: 'Contato não encontrado' });
+    }
+
+    res.json(contact);
+  } catch (error) {
+    next(error);
+  }
+});
+
+//Rota para deletar um contato
+app.delete('/api/contacts/:id/info/delete', async (req, res, next) => {
+  try {
+    const contactId = req.params.id;
+    const contactsDatabase = ContactsDatabase.getInstance();
+    contactsDatabase.deleteContact(contactId); // Chama o método deleteContact passando o ID do contato a ser deletado
+    contactsDatabase.deleteContact(contactId);
+
+    res.sendStatus(204); // Retorna 204 No Content para indicar que o contato foi deletado com sucesso
+  } catch (error) {
+    next(error);
+  }
+});
+
+
 app.use(
   (
     error: HttpError,
