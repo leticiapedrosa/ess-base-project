@@ -29,7 +29,7 @@ export default class ContactsDatabase {
         return this.contacts.find(contact => contact.id === contactId);
     }
 
-    // Método para remover um contato com base no ID ainda nn pega 
+    // Método para remover um contato com base no ID
     deleteContact(contactId: string) {
         this.contacts = this.contacts.filter(contact => contact.id !== contactId);
         return this.contacts;

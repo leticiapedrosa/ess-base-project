@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { Result, SuccessResult } from '../utils/result';
+import { Result, SuccessResult, FailureResult } from '../utils/result';
 import TestService from '../services/test.service';
 import TestEntity from '../entities/test.entity';
 
@@ -86,11 +86,25 @@ class TestController {
   }
 
   private async deleteTest(req: Request, res: Response) {
-    await this.testService.deleteTest(req.params.id);
-
-    return new SuccessResult({
-      msg: Result.transformRequestOnMsg(req),
-    }).handle(res);
+    const deletedTestId = req.params.id;
+    try {
+      await this.testService.deleteTest(deletedTestId);
+  
+      // Obtém a lista de contatos atualizada após a exclusão
+      const updatedContacts = await this.testService.getTests();
+  
+      // Retorna a mensagem de confirmação e a lista de contatos atualizada
+      return new SuccessResult({
+        // msg: Result.transformRequestOnMsg(req),
+        msg: "Contato deletado com sucesso.",
+        data: updatedContacts,
+      }).handle(res);
+    } catch (error) {
+      // Se houver um erro ao excluir o contato
+      return new FailureResult({
+        msg: "Falha ao deletar o contato.",
+      }).handle(res);
+    }
   }
 }
 

@@ -35,6 +35,20 @@ app.get('/api/contacts', async (req, res, next) => {
   }
 });
 
+// Rota para adicionar um novo contato
+app.post('/api/contacts', async (req, res, next) => {
+  try {
+    const newContact = req.body; // O novo contato enviado no corpo da requisição
+    const contactsDatabase = ContactsDatabase.getInstance();
+    contactsDatabase.addContact(newContact); // Adiciona o novo contato ao banco de dados
+
+    res.status(201).json({ message: "Contato adicionado com sucesso" }); // Retorna 201 Created para indicar que o contato foi adicionado com sucesso
+  } catch (error) {
+    next(error); // Se houver um erro, passe para o próximo middleware de tratamento de erro
+  }
+});
+
+
 // Rota para obter informações de um contato específico
 app.get('/api/contacts/:id', async (req, res, next) => {
   try {
@@ -52,7 +66,7 @@ app.get('/api/contacts/:id', async (req, res, next) => {
   }
 });
 
-//Rota para deletar um contato ainda nn pega
+//Rota para deletar um contato
 app.delete('/api/contacts/delete/:id', async (req, res, next) => {
   try {
     const contactId = req.params.id;
@@ -60,12 +74,12 @@ app.delete('/api/contacts/delete/:id', async (req, res, next) => {
     contactsDatabase.deleteContact(contactId); // Chama o método deleteContact passando o ID do contato a ser deletado
     contactsDatabase.deleteContact(contactId);
 
-    res.sendStatus(204); // Retorna 204 No Content para indicar que o contato foi deletado com sucesso
+    res.status(204).json({msg:"Contato deletado com sucesso." }); // Retorna 204 No Content para indicar que o contato foi deletado com sucesso
   } catch (error) {
+    res.status(500).json({msg: "Falha ao deletar o contato." });
     next(error);
   }
 });
-
 
 app.use(
   (
