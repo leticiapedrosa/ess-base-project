@@ -26,6 +26,7 @@ Scenario: Adição de um Novo Contato na Lista (cancelado)
     When "Pedro" seleciona "cancelar"
     Then "Pedro" está na página de "Lista de Contatos"
     And "Pedro" vê os contatos "Maria" e "João"
+    
 
 Scenario: Adição de um Novo Contato na Lista (erro)
     Given o usuário "Pedro" está na página de "Lista de Contatos"
@@ -36,7 +37,7 @@ Scenario: Adição de um Novo Contato na Lista (erro)
     When "Pedro" preenche manualmente os campos "Letícia", "12345678", "vegetariana"
     And "Pedro" vê a opção "confirmar" e "cancelar"
     When "Pedro" seleciona "confirmar"
-    Then "Pedro" recebe uma mensagem "Erro! Usuário não cadastro no sistema"
+    Then "Pedro" recebe uma mensagem "Erro ao adicionar contato"
     And "Pedro" está na página de "Lista de Contatos"
     And "Pedro" vê os contatos "Maria" e "João"
 
