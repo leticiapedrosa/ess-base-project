@@ -8,6 +8,10 @@ import { HttpError } from './utils/errors/http.error';
 import { FailureResult, SuccessResult } from './utils/result';
 import Database from './database';
 import ContactsDatabase from './database/contacts.database';
+import userRoutes from './routes/user.route';
+import loginRouter from './routes/user_login.route'; 
+import updateRouter from './routes/update.route';
+import deleteRouter from './routes/delete.user.router';
 
 const app: express.Express = express();
 
@@ -22,6 +26,12 @@ app.use(
 );
 
 setupRoutes(app);
+
+// Adicione as rotas do usuário à aplicação
+app.use('/api/users', userRoutes);
+app.use('/api/users', loginRouter);
+app.use('/api/users', updateRouter); 
+app.use('/api/users', deleteRouter); 
 
 // Rota para obter lista de contatos
 app.get('/api/contacts', async (req, res, next) => {
@@ -112,6 +122,5 @@ app.use(
 
 // e.g. Seed database with initial data;
 Database.seed();
-
 
 export default app;
