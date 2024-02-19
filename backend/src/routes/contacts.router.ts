@@ -68,7 +68,7 @@ router.get('/', async (req, res, next) => {
       const contactToDelete = contactsDatabase.getContactById(contactId);
       if (contactToDelete) { 
         contactsDatabase.deleteContact(contactId); // Se o contato existir, então deleta
-        res.status(201).json({ message: "Contato removido com sucesso" });
+        res.status(200).json({ message: "Você tem certeza que deseja remover este contato?", options: ["Confirmar", "Cancelar"] });
   
       } else {
         return res.status(404).json({ message: 'Contato não encontrado' }); // Se o contato não existir, retorna um erro 404
@@ -78,3 +78,39 @@ router.get('/', async (req, res, next) => {
     }
   });
 
+
+  //realmente deletando
+  router.delete('/:id/info/confirm', async (req, res, next) => {
+    try {
+      const contactId = req.params.id;
+      const contactsDatabase = ContactsDatabase.getInstance();
+      contactsDatabase.deleteContact(contactId); // Se o contato existir, então deleta
+      res.status(201).json({ message: "Contato removido com sucesso" });
+    
+    } catch (error) {
+      next(error);
+    }
+  });
+
+
+  router.get('/search', async (req, res, next) => {
+    try {
+      const searchTerm: string = req.query.searchTerm as string;
+      const contactsDatabase = ContactsDatabase.getInstance();
+      const allContacts = contactsDatabase.getAllContacts();
+      //filtra os contatos de acordo com o termo de busca
+      const filteredContacts = allContacts.filter(contact =>
+        contact.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+
+      if (filteredContacts.length > 0) {
+        res.status(200).json(filteredContacts); //se tiver alguem retorna
+      } else {
+        // Se não, retorna uma mensagem indicando isso
+        res.status(404).json({ message: 'Nenhum contato encontrado com o termo de busca fornecido.' });
+      }
+    
+    } catch (error) {
+      next(error);
+    }
+  });
