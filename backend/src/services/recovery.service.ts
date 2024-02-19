@@ -1,4 +1,3 @@
-import bcrypt from 'bcrypt';
 import crypto from 'crypto';
 import RecoveryTokensDatabase from '../database/recovery.database';
 import { UserRecovery } from '../interfaces/user.recovery.interface';
