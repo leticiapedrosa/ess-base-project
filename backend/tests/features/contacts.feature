@@ -8,3 +8,9 @@ Scenario: Obter a lista de contatos
     When uma requisição GET for enviada para "/api/contacts"
     Then o status da resposta deve ser "200"
     And o JSON da resposta deve conter uma lista com os contatos existentes exibidos em ordem alfabética
+
+Scenario: Adicionar um novo contato com sucesso
+    Given o método addContact adiciona um novo contato à lista de contatos
+    When uma requisição POST for enviada para "/api/contacts/" com os dados: id "2" nome "Bob", número "00000002" e mais "Apelido: Marley"
+    Then o status da resposta deve ser "200"
+    And a resposta deve conter a mensagem "Contato adicionado com sucesso"

@@ -29,7 +29,7 @@ router.get('/', async (req, res, next) => {
         const contactsDatabase = ContactsDatabase.getInstance();
         contactsDatabase.addContact(newContact); // Adiciona o novo contato ao banco de dados
   
-        res.status(200).json({ message: "Contato adicionado com sucesso" }); // Retorna 201 Created para indicar que o contato foi adicionado com sucesso
+        res.status(200).json({ message: "Contato adicionado com sucesso" }); // Retorna 200 Created para indicar que o contato foi adicionado com sucesso
       } else {
         res.status(500).json({ message: "Erro ao adicionar contato" }); // Se os campos necessários não estiverem presentes, retorna um erro 400 Bad Request
       }

@@ -51,4 +51,21 @@ defineFeature(feature, test => {
             expect(contacts.map((contact: any) => contact.name)).toEqual(sortedNames);
         });
     });
+
+    test('Adicionar um novo contato com sucesso', ({ given, when, then }) => {
+        given(/^o método addContact adiciona um novo contato à lista de contatos$/, () => {});
+
+        when(/^uma requisição POST for enviada para "(.*)" com os dados id: "(.*)", nome "(.*)", número "(.*)" e mais "(.*)"$/, async (endpoint, id, name, number, more) => {
+            response = await request.post(endpoint).send({ id, name, number, more });
+        });
+
+        then(/^o status da resposta deve ser "(.*)"$/, (statusCode) => {
+            expect(response.status).toBe(Number(statusCode));
+        });
+
+        and(/^a resposta deve conter a mensagem "(.*)"$/, (message) => {
+            expect(response.body.message).toBe(message);
+        });
+});
+
 });
