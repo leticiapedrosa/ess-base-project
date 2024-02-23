@@ -6,9 +6,10 @@ export default class ContactsDatabase {
 
     private constructor() {
         this.contacts = [
-            { id: '1', name: 'Alice', number: '00000000', more: 'É chorona' },
-            { id: '3', name: 'Charlie', number: '00000002', more: '' },
-            { id: '2', name: 'Bob', number: '00000001', more: 'Apelido: Marley' },
+            { id: '1', name: 'João Pedro', number: '00000000', more: 'Apelido: JP' },
+            { id: '4', name: 'Alice', number: '00000004', more: 'É chorona' },
+            { id: '3', name: 'Charlie', number: '00000003', more: 'Chamar de Brown' },
+            { id: '2', name: 'Bob', number: '00000002', more: 'Apelido: Marley' }
           ];;
     }
 
@@ -24,7 +25,7 @@ export default class ContactsDatabase {
         this.contacts.push(contact);
     }
     
-    // Método para obter um contato pelo ID
+    // Método para obter informações de um contato pelo ID
     getContactById(contactId: string) {
         return this.contacts.find(contact => contact.id === contactId);
     }
@@ -40,5 +41,6 @@ export default class ContactsDatabase {
     return this.contacts.slice().sort((a, b) => a.name.localeCompare(b.name));
     }
     
+    // Método para buscar um contato pelo nome
 
 }

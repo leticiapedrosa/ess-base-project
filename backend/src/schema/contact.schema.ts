@@ -6,7 +6,6 @@ const contactSchema: Schema = new Schema <Icontact>({
     name: { type: String, required: true },
     number: { type: String, required: true, unique: true },
     more:{type:String, required:true}
-    
   });
 
 export {contactSchema};

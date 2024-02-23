@@ -29,9 +29,9 @@ router.get('/', async (req, res, next) => {
         const contactsDatabase = ContactsDatabase.getInstance();
         contactsDatabase.addContact(newContact); // Adiciona o novo contato ao banco de dados
   
-        res.status(201).json({ message: "Contato adicionado com sucesso" }); // Retorna 201 Created para indicar que o contato foi adicionado com sucesso
+        res.status(200).json({ message: "Contato adicionado com sucesso" }); // Retorna 201 Created para indicar que o contato foi adicionado com sucesso
       } else {
-        res.status(400).json({ message: "Erro ao adicionar contato" }); // Se os campos necessários não estiverem presentes, retorna um erro 400 Bad Request
+        res.status(500).json({ message: "Erro ao adicionar contato" }); // Se os campos necessários não estiverem presentes, retorna um erro 400 Bad Request
       }
     } catch (error) {
       res.status(500).json({ message: "Erro ao adicionar contato" });
@@ -53,6 +53,7 @@ router.get('/', async (req, res, next) => {
   
       res.json(contact);
     } catch (error) {
+      res.status(500)
       next(error);
     }
   });
@@ -74,6 +75,7 @@ router.get('/', async (req, res, next) => {
         return res.status(404).json({ message: 'Contato não encontrado' }); // Se o contato não existir, retorna um erro 404
       }
     } catch (error) {
+      res.status(500)
       next(error);
     }
   });
@@ -85,14 +87,17 @@ router.get('/', async (req, res, next) => {
       const contactId = req.params.id;
       const contactsDatabase = ContactsDatabase.getInstance();
       contactsDatabase.deleteContact(contactId); // Se o contato existir, então deleta
-      res.status(201).json({ message: "Contato removido com sucesso" });
+      res.status(200).json({ message: "Contato removido com sucesso" });
     
     } catch (error) {
+      res.status(500)
       next(error);
     }
   });
 
 
+    
+  //Rota para buscar um contato
   router.get('/search', async (req, res, next) => {
     try {
       const searchTerm: string = req.query.searchTerm as string;
@@ -111,6 +116,7 @@ router.get('/', async (req, res, next) => {
       }
     
     } catch (error) {
+      res.status(500)
       next(error);
     }
   });
