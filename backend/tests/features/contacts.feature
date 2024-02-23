@@ -14,3 +14,4 @@ Scenario: Adicionar um novo contato com sucesso
     When uma requisição POST for enviada para "/api/contacts/" com os dados: id "2" nome "Bob", número "00000002" e mais "Apelido: Marley"
     Then o status da resposta deve ser "200"
     And a resposta deve conter a mensagem "Contato adicionado com sucesso"
+    

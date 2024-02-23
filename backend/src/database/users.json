@@ -58,5 +58,23 @@
     "email": "ess@example.com",
     "username": "usertest",
     "password": "testpwd"
+  },
+  {
+    "name": "testname",
+    "email": "ess@example.com",
+    "username": "usertest",
+    "password": "testpwd"
+  },
+  {
+    "name": "testname",
+    "email": "ess@example.com",
+    "username": "usertest",
+    "password": "testpwd"
+  },
+  {
+    "name": "testname",
+    "email": "ess@example.com",
+    "username": "usertest",
+    "password": "testpwd"
   }
 ]

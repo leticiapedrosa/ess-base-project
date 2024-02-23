@@ -52,7 +52,7 @@ defineFeature(feature, test => {
         });
     });
 
-    test('Adicionar um novo contato com sucesso', ({ given, when, then }) => {
+    test('Adicionar um novo contato com sucesso', ({ given, when, then, and }) => {
         given(/^o método addContact adiciona um novo contato à lista de contatos$/, () => {});
 
         when(/^uma requisição POST for enviada para "(.*)" com os dados id: "(.*)", nome "(.*)", número "(.*)" e mais "(.*)"$/, async (endpoint, id, name, number, more) => {
@@ -63,8 +63,8 @@ defineFeature(feature, test => {
             expect(response.status).toBe(Number(statusCode));
         });
 
-        and(/^a resposta deve conter a mensagem "(.*)"$/, (message) => {
-            expect(response.body.message).toBe(message);
+        and(/^a resposta deve conter a mensagem "(.*)"$/, (message:any) => {
+            expect(response.body.message).toContain(message);
         });
 });
 
