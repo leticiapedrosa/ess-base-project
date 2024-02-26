@@ -50,8 +50,8 @@ router.get('/', async (req, res, next) => {
       if (!contact) {
         return res.status(404).json({ message: 'Contato não encontrado' });
       }
-  
-      res.json(contact);
+      
+      res.status(200).json(contact);
     } catch (error) {
       res.status(500)
       next(error);

@@ -6,7 +6,7 @@ export default class ContactsDatabase {
 
     private constructor() {
         this.contacts = [
-            { id: '1', name: 'João Pedro', number: '00000000', more: 'Apelido: JP' },
+            { id: '1', name: 'João Pedro', number: '00000000', more: '' },
             { id: '4', name: 'Alice', number: '00000004', more: 'É chorona' },
             { id: '3', name: 'Charlie', number: '00000003', more: 'Chamar de Brown' },
             { id: '2', name: 'Bob', number: '00000002', more: 'Apelido: Marley' }
@@ -20,7 +20,7 @@ export default class ContactsDatabase {
         return ContactsDatabase.instance;
     }
     
-    // Método para adicionar um novo contato
+    // Método para adicionar um novo contato"
     addContact(contact: any) {
         this.contacts.push(contact);
     }

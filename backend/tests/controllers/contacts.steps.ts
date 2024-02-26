@@ -14,7 +14,7 @@ defineFeature(feature, test => {
     test('Obter a lista de contatos', ({ given, and, when, then }) => {
         given(/^o método getAllContacts retorna todos os contatos ordenados por ordem alfabética$/, () => {});
 
-        and(/^o contato com id "(.*)", nome "(.*)", número "(.*)" e mais "(.*)" pertence à lista$/, (id, name, number, more) => {
+        and(/^o contato com id "(.*)", nome "(.*)", número "(.*)" pertence à lista$/, (id, name, number, more) => {
             // Adicionar o contato à base de dados de teste
             const contactDatabase = ContactsDatabase.getInstance();
             const newContact: Icontact = { id: id, name: name, number: number, more: more };
@@ -55,7 +55,7 @@ defineFeature(feature, test => {
     test('Adicionar um novo contato com sucesso', ({ given, when, then, and }) => {
         given(/^o método addContact adiciona um novo contato à lista de contatos$/, () => {});
 
-        when(/^uma requisição POST for enviada para "(.*)" com os dados id: "(.*)", nome "(.*)", número "(.*)" e mais "(.*)"$/, async (endpoint, id, name, number, more) => {
+        when(/^uma requisição POST for enviada para "(.*)" com os dados: id "(.*)", nome "(.*)", número "(.*)" e mais "(.*)"$/, async (endpoint, id, name, number, more) => {
             response = await request.post(endpoint).send({ id, name, number, more });
         });
 
@@ -66,6 +66,33 @@ defineFeature(feature, test => {
         and(/^a resposta deve conter a mensagem "(.*)"$/, (message:any) => {
             expect(response.body.message).toContain(message);
         });
-});
+    });
+
+    test('Informações de um Contato', ({ given, when, then, and }) => {
+        given(/^o método getContactById obtém as Informações de um contato pelo ID dele$/, () => {});
+    
+        and(/^existe um contato com id "(.*)", nome "(.*)" e número "(.*)" na lista de contatos$/, (id, name, number) => {
+            const contactDatabase = ContactsDatabase.getInstance();
+            const newContact: Icontact = { id: id, name: name, number: number, more: '' }; // Não há informação adicional neste contato
+            contactDatabase.addContact(newContact);
+        });
+    
+        when(/^uma requisição GET for enviada para "(.*)"$/, async (endpoint) => {
+            response = await request.get(endpoint);
+        });
+    
+        then(/^o status da resposta deve ser "(.*)"$/, (statusCode) => {
+            expect(response.status).toBe(Number(statusCode));
+        });
+    
+        and(/^o JSON da resposta deve conter as informações id "(.*)", name "(.*)", number "(.*)" e more "(.*)"$/, (id, name, number, more) => {
+            // Verifica se a resposta possui as informações esperadas do contato
+            expect(response.body.id).toBe(id);
+            expect(response.body.name).toBe(name);
+            expect(response.body.number).toBe(number);
+            expect(response.body.more).toBe(more);
+        });        
+    });
+
 
 });
