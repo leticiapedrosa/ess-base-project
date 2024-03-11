@@ -96,27 +96,21 @@ router.get('/', async (req, res, next) => {
   });
 
 
-    
-  //Rota para buscar um contato
   router.get('/search', async (req, res, next) => {
     try {
-      const searchTerm: string = req.query.searchTerm as string;
-      const contactsDatabase = ContactsDatabase.getInstance();
-      const allContacts = contactsDatabase.getAllContacts();
-      //filtra os contatos de acordo com o termo de busca
-      const filteredContacts = allContacts.filter(contact =>
-        contact.name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
+        const searchTerm: string = req.query.searchTerm as string;
+        const contactsDatabase = ContactsDatabase.getInstance();
+        const filteredContacts = contactsDatabase.searchContactByName(searchTerm);
 
-      if (filteredContacts.length > 0) {
-        res.status(200).json(filteredContacts); //se tiver alguem retorna
-      } else {
-        // Se não, retorna uma mensagem indicando isso
-        res.status(404).json({ message: 'Nenhum contato encontrado com o termo de busca fornecido.' });
-      }
-    
+        if (filteredContacts.length >  0) {
+            res.status(200).json(filteredContacts);
+        } else {
+            res.status(404).json({ message: 'Nenhum contato encontrado com o termo de busca fornecido.' });
+        }
     } catch (error) {
-      res.status(500)
-      next(error);
+        res.status(500);
+        next(error);
     }
-  });
+});
+
+
