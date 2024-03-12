@@ -60,7 +60,7 @@ router.get('/', async (req, res, next) => {
 
   
   //Rota para deletar um contato
-  router.delete('/:id/info', async (req, res, next) => {
+  router.delete('/:id/info/delete', async (req, res, next) => {
     try {
       const contactId = req.params.id;
       const contactsDatabase = ContactsDatabase.getInstance();
@@ -69,7 +69,8 @@ router.get('/', async (req, res, next) => {
       const contactToDelete = contactsDatabase.getContactById(contactId);
       if (contactToDelete) { 
         contactsDatabase.deleteContact(contactId); // Se o contato existir, então deleta
-        res.status(200).json({ message: "Você tem certeza que deseja remover este contato?", options: ["Confirmar", "Cancelar"] });
+        return res.status(200).json({ message: 'Contato removido com sucesso' });
+        //res.status(200).json({ message: "Você tem certeza que deseja remover este contato?", options: ["Confirmar", "Cancelar"] });
   
       } else {
         return res.status(404).json({ message: 'Contato não encontrado' }); // Se o contato não existir, retorna um erro 404
@@ -82,18 +83,18 @@ router.get('/', async (req, res, next) => {
 
 
   //realmente deletando
-  router.delete('/:id/info/confirm', async (req, res, next) => {
-    try {
-      const contactId = req.params.id;
-      const contactsDatabase = ContactsDatabase.getInstance();
-      contactsDatabase.deleteContact(contactId); // Se o contato existir, então deleta
-      res.status(200).json({ message: "Contato removido com sucesso" });
-    
-    } catch (error) {
-      res.status(500)
-      next(error);
-    }
-  });
+//  router.delete('/:id/info/confirm', async (req, res, next) => {
+//    try {
+//      const contactId = req.params.id;
+//      const contactsDatabase = ContactsDatabase.getInstance();
+//      contactsDatabase.deleteContact(contactId); // Se o contato existir, então deleta
+//      res.status(200).json({ message: "Contato removido com sucesso" });
+//    
+//    } catch (error) {
+//      res.status(500)
+//      next(error);
+//    }
+//  });
 
 
   router.get('/search', async (req, res, next) => {

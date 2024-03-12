@@ -30,3 +30,11 @@ Scenario: Busca de contato bem sucedida
     When uma requisição GET for enviada para "/api/contacts/search" com o parâmetro de consulta "searchTerm" como "João" 
     Then o status da resposta deve ser "200" 
     And o JSON da resposta deve conter uma lista contendo o contato "João Pedro" no topo dela
+
+Scenario: Remover um contato da lista com sucesso
+    Given o método deleteContact está implementado na classe ContactsDatabase
+    And existe um contato com id "1", nome "João Pedro", número "00000000" na lista de contatos
+    When uma requisição DELETE for enviada para "/api/contacts/1/info/delete"
+    Then o status da resposta deve ser "200"
+    And o JSON da resposta deve conter a mensagem "Contato removido com sucesso"
+    And o contato com id "1" não deve mais existir na lista de contatos

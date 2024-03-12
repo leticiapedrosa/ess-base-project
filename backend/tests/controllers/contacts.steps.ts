@@ -130,5 +130,31 @@ defineFeature(feature, test => {
         });        
     });
 
+    test('Remover um contato da lista com sucesso', ({ given, when, then, and }) => {
+        given(/^o método deleteContact está implementado na classe ContactsDatabase$/, () => {});
 
+        and(/^existe um contato com id "(.*)", nome "(.*)", número "(.*)" na lista de contatos$/, (id, name, number) => {
+            //const contactDatabase = ContactsDatabase.getInstance();
+            //const newContact: Icontact = { id: id, name: name, number: number, more: '' };
+            //contactDatabase.addContact(newContact);
+        });
+
+        when(/^uma requisição DELETE for enviada para "(.*)"$/, async (endpoint) => {
+            response = await request.delete(endpoint);
+        });
+
+        then(/^o status da resposta deve ser "(.*)"$/, (statusCode) => {
+            expect(response.status).toBe(Number(statusCode));
+        });
+
+        and(/^o JSON da resposta deve conter a mensagem "(.*)"$/, (message: any) => {
+            expect(response.body.message).toContain(message);
+        });
+
+        and(/^o contato com id "(.*)" não deve mais existir na lista de contatos$/, (id) => {
+            const contactDatabase = ContactsDatabase.getInstance();
+            const contact = contactDatabase.getContactById(id);
+            expect(contact).toBeUndefined();
+        });
+    });
 });
