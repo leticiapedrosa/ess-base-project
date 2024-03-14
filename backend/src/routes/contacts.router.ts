@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import ContactsDatabase from '../database/contacts.database';
 //import * as chatsService from '../services/contacts.service';
+import { Icontact } from '../interfaces/contacts.interface';
 
 const router = express.Router();
 
@@ -8,7 +9,7 @@ const router = express.Router();
 export default router; // Exportação padrão do router
 
 // Função para validar os campos necessários em um novo contato
-function validateContactFields(newContact) {
+function validateContactFields(newContact: Icontact) {
   return newContact && newContact.name && newContact.number;
 }
 
@@ -28,7 +29,7 @@ router.get('/', async (req, res, next) => {
   // Rota para adicionar um novo contato
   router.post('/', async (req, res, next) => {
     try {
-      const newContact = req.body; // O novo contato enviado no corpo da requisição
+      const newContact: Icontact = req.body; // O novo contato enviado no corpo da requisição
       
       if (validateContactFields(newContact)) { // Verifica se o corpo da requisição contém os campos necessários
         const contactsDatabase = ContactsDatabase.getInstance();

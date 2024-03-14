@@ -8,6 +8,7 @@ import UserUpdate from "./app/home/pages/UserUpdate";
 import UserDelete from "./app/home/pages/UserDelete";
 import PasswordRecovery from "./app/home/pages/Recovery";
 import ChangePass from "./app/home/pages/ChangePass";
+import ContactsApp from "./app/home/pages/ContactsApp";
 
 const router = createBrowserRouter([
   {
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
   {
     path: "/changepass",
     Component: ChangePass,
+  },
+  {
+    path: "/contacts", 
+    Component: ContactsApp,
   },
 ]);
 
