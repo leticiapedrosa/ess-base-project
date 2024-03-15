@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styles from './ContactsApp.module.css'
 import trashIcon from '../assets/trash-can.png';
-//import { set } from 'react-hook-form';
 
 interface Icontact {
   id: string;
@@ -89,18 +88,22 @@ const ContactsApp: React.FC = () => {
 
   return (
     <div className={styles.container}>
-  
-      <h2>Lista de Contatos</h2> 
-      <input
-        className={styles.searchInput}
-        type="text"
-        placeholder="Pesquisar contato..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        />
-
-      {errorMessage && <p>{errorMessage}</p>}
       <div className={styles.contactsContainer}>
+      <h2>Lista de Contatos</h2> 
+      <div className={styles.searchContainer}>
+        <input
+          className={styles.searchInput}
+          type="text"
+          placeholder="Pesquisar contato..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        <button
+            className={styles.clearSearchButton}
+            onClick={() => setSearchTerm('')}> X </button>
+      </div>
+      {errorMessage && <p>{errorMessage}</p>}
+      
         <ul className={styles.contactList}>
           {contacts.map((contact, index) => (
             <li key={index} className={styles.contactItem} onClick={() => handleContactClick(contact)}>
@@ -125,31 +128,29 @@ const ContactsApp: React.FC = () => {
         )}
       </div>  
 
-      <div className={styles.addContactForm}>
-        <h3>Adicionar Contato</h3>
-        <input
-           type="text"
-           placeholder="Nome"
-           value={newContact.name}
-           onChange={(e) => setNewContact({ ...newContact, name: e.target.value })}
-        />
-        <input
-           type="text"
-           placeholder="Número"
-           value={newContact.number}
-           onChange={(e) => setNewContact({ ...newContact, number: e.target.value })}
-        />
-        <input
-           type="text"
-           placeholder="Mais Informações (opcional)"
-           value={newContact.more}
-           onChange={(e) => setNewContact({ ...newContact, more: e.target.value })}
-        />
-        <button onClick={handleAddContact}>Adicionar</button>
-        </div>
-
+    <div className={styles.addContactForm}>
+      <h3>Adicionar Contato</h3>
+      <input
+        type="text"
+        placeholder="Nome"
+        value={newContact.name}
+        onChange={(e) => setNewContact({ ...newContact, name: e.target.value })}
+      />
+      <input
+        type="text"
+        placeholder="Número"
+        value={newContact.number}
+        onChange={(e) => setNewContact({ ...newContact, number: e.target.value })}
+      />
+      <input
+        type="text"
+        placeholder="Mais Informações (opcional)"
+        value={newContact.more}
+        onChange={(e) => setNewContact({ ...newContact, more: e.target.value })}
+      />
+      <button onClick={handleAddContact}>Adicionar</button>
     </div>
-    
+    </div>
 );
 };
 export default ContactsApp;
