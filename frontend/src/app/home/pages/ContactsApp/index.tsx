@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styles from './ContactsApp.module.css'
 import trashIcon from '../assets/trash-can.png';
+//import { set } from 'react-hook-form';
 
 interface Icontact {
   id: string;
@@ -22,44 +23,31 @@ const ContactsApp: React.FC = () => {
     number: '',
     more: '',
    });
-   
 
 
-  const fetchContacts  = async ()  => {
+  const fetchContacts  = async (searchTerm?: string)  => {
     try {
-      const response = await axios.get('http://localhost:5001/api/contacts');
+      let url = 'http://localhost:5001/api/contacts';
+      if (searchTerm) {
+        url += `/search?searchTerm=${encodeURIComponent(searchTerm)}`;
+    }
+      const response = await axios.get(url);
       setContacts(response.data);
+      setErrorMessage('');
     } catch (error) {
-      console.error('Erro ao buscar contatos:', error);
+      console.error('Erro ao buscar contato:', error);
+      if (axios.isAxiosError(error)) {
+          if (error.response && error.response.status === 404) {
+              setErrorMessage('Contato não encontrado');
+          }
+      }
+      setContacts([]);    
     }
   }
 
   useEffect(() => {
-    fetchContacts();
-  }, []);
-
-  const handleSearch = async () => {
-    try {
-      const response = await axios.get(`http://localhost:5001/api/contacts/search?searchTerm=${searchTerm}`);
-      if (response.data.length === 0) {
-        setErrorMessage('Nenhum contato encontrado com o termo de busca fornecido.');
-      } else {
-        setErrorMessage('');
-        setContacts(response.data);
-      }
-      setContacts(response.data);
-
-    } catch (error) { 
-      if (axios.isAxiosError(error) && error.response) {
-        if (error.response && error.response.status === 404) {
-          setErrorMessage('Nenhum contato encontrado com o termo de busca fornecido.');
-          setContacts([]);
-        } else {
-        console.error('Error search', error);
-        }
-      }
-  }
-  };
+    fetchContacts(searchTerm);
+  }, [searchTerm]);
 
   const handleContactClick = async (contact: Icontact) => {
     setSelectedContact(contact);
@@ -76,12 +64,25 @@ const ContactsApp: React.FC = () => {
   };
 
   const handleAddContact = async () => {
+
+    if (!newContact.name || !newContact.number) {
+      setErrorMessage('Preencha todos os campos');
+      setTimeout(() => {
+        setErrorMessage('');
+    }, 3000);
+      return; // Interrompe a execução da função se os campos necessários não estiverem preenchidos
+   }
+
     try {
        await axios.post('http://localhost:5001/api/contacts', newContact);
        setNewContact({ id: '', name: '', number: '', more: '' }); // Limpa o formulário após a adição
        fetchContacts(); // Atualiza a lista de contatos
     } catch (error) {
        console.error('Erro ao adicionar contato:', error);
+       setErrorMessage('Erro ao adicionar contato');
+       setTimeout(() => {
+        setErrorMessage('');
+    }, 3000);
     }
    };
    
@@ -90,10 +91,13 @@ const ContactsApp: React.FC = () => {
     <div className={styles.container}>
   
       <h2>Lista de Contatos</h2> 
-      <div className={styles.searchContainer}>
-        <input type="text" placeholder="Buscar contato" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
-        <button onClick={handleSearch}>Buscar</button>
-      </div>
+      <input
+        className={styles.searchInput}
+        type="text"
+        placeholder="Pesquisar contato..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        />
 
       {errorMessage && <p>{errorMessage}</p>}
       <div className={styles.contactsContainer}>

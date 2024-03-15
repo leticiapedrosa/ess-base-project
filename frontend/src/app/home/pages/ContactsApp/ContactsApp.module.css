@@ -59,8 +59,8 @@
 }
 
 .contactDetails p {
-  margin-bottom: 10px; /* Ajuste o valor conforme necessário */
-  margin-top: 10px; /* Ajuste o valor conforme necessário */
+  margin-bottom: 10px; 
+  margin-top: 10px; 
  }
 
 .contactHeader {
@@ -70,6 +70,11 @@
 }
  
 .trashIcon {
-  width: 20px; /* Ajuste o tamanho conforme necessário */
+  width: 20px; 
   height: auto;
+}
+
+.searchInput {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
