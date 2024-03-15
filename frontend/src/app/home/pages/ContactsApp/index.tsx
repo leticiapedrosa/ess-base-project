@@ -119,7 +119,8 @@ const ContactsApp: React.FC = () => {
               <img src={trashIcon}
                 alt="Excluir"
                 className={styles.trashIcon} 
-                onClick={() => handleDeleteContact(selectedContact.id)} />
+                onClick={() => handleDeleteContact(selectedContact.id)}
+                data-cy="delete-contact-icon" />
             </div>
             <p>Número: {selectedContact.number}</p>
             <p>Mais: {selectedContact.more}</p>
