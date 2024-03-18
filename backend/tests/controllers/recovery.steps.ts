@@ -31,7 +31,7 @@ defineFeature(feature, (test) => {
       name: 'João Silva',
       email: 'Joao2@gmail.com',
       username: 'joao123',
-      password: '123'
+      password: 'senha123'
     };
 
     // Read the current content of users.json

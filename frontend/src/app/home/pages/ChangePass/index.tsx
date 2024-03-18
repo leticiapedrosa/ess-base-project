@@ -5,6 +5,7 @@ import { z } from "zod";
 import Button from "../../../../shared/components/Button";
 import styles from "./index.module.css";
 import axios from 'axios';
+import { useState } from 'react';
 
 const ChangePassFormSchema = z.object({
   token: z.string(),
@@ -26,27 +27,38 @@ const ChangePass = () => {
 
   const location = useLocation();
   const message = location.state?.message;
+  const [apiMessage, setApiMessage] = useState('');
+  const [apiMessageS, setApiMessageS] = useState('');
 
   const onSubmit: SubmitHandler<ChangePassFormType> = async (data) => {
+    setApiMessage("");
+    setApiMessageS("");
     console.log(data);
     try {
-      const response = await axios.post('http://localhost:5001/api/recovery/changepassword', data);
+      const response = await axios.post('http://localhost:5001/api/recovery/chgpwd', data);
+      setApiMessageS(response.data.msg);
       console.log(response.data);
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      if (error.response && error.response.status === 400) {
+        setApiMessage(error.response.data.msg);
+      } else {
+        console.error(error);
+      }
     }
   };
 
   return (
     <section className={styles.container}>
-      <h1 className={styles.title}>Alteração de Senha</h1>
-      {message && <p>{message}</p>}
+      <h1 className={styles.title}>Password Recovery</h1>
+      {message && <p id='successMessage' className={styles.info}>{message}</p>}
+      <br />
+
       <form className={styles.formContainer} onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.formInputContainer}>
           <input
             data-cy="input-token"
             {...register("token")}
-            placeholder="Digite o token"
+            placeholder="Token sent to mail"
             className={styles.formInput}
           />
           {errors.token && (
@@ -59,7 +71,7 @@ const ChangePass = () => {
           <input
             data-cy="input-email"
             {...register("email")}
-            placeholder="Digite o seu e-mail"
+            placeholder="E-mail"
             className={styles.formInput}
           />
           {errors.email && (
@@ -72,7 +84,7 @@ const ChangePass = () => {
           <input
             data-cy="input-password"
             {...register("password")}
-            placeholder="Digite a nova senha"
+            placeholder="New password"
             className={styles.formInput}
           />
           {errors.password && (
@@ -85,7 +97,7 @@ const ChangePass = () => {
           <input
             data-cy="input-confirm-password"
             {...register("confirmPassword")}
-            placeholder="Confirme a nova senha"
+            placeholder="Repeat new password"
             className={styles.formInput}
           />
           {errors.confirmPassword && (
@@ -94,8 +106,11 @@ const ChangePass = () => {
             </span>
           )}
         </div>
-        <Button type="submit">Alterar Senha</Button>
+        <Button data-cy="recover-button" id='submitButton' type="submit">Change password</Button>
+        {apiMessage && <p id="alert" className={styles.alert}>{apiMessage}</p>}
+        {apiMessageS && <p id="alert-success" className={styles.success}>{apiMessageS}</p>}
       </form>
+      <br></br><a href="/login" className={styles.underline}>Login here</a>
     </section>
   );
 };

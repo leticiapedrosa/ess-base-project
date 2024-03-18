@@ -54,3 +54,21 @@
 .underline {
   text-decoration: underline;
 }
+
+/* .notification {
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 5px;
+  padding: 20px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.notification p {
+  margin-bottom: 10px;
+}
+
+.notification p:last-child {
+  margin-bottom: 0;
+} */

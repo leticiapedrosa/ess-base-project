@@ -43,15 +43,28 @@ const PasswordRecovery = () => {
     }
   };
 
+  const handleForgotEmail = async () => {
+    try {
+      const response = await axios.get('http://localhost:5001/api/recovery/forgotmail');
+      setMessage(response.data.msg);
+    } catch (error: any) {
+      if (error.response && error.response.status === 400) {
+        setMessage(error.response.data.msg);
+      } else {
+        console.error(error);
+      }
+    }
+  };
+
   return (
     <section className={styles.container}>
-      <h1 className={styles.title}>Recuperação de Senha</h1>
+      <h1 className={styles.title}>Password Recovery</h1>
       <form className={styles.formContainer} onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.formInputContainer}>
           <input
-              data-cy="input-name"
+              data-cy="input-email"
               {...register("email")}
-              placeholder="Digite o seu e-mail"
+              placeholder="Email"
               className={styles.formInput}
             />          
           {errors.email && (
@@ -60,12 +73,11 @@ const PasswordRecovery = () => {
             </span>
           )}
         </div>
-        <Button type="submit">Recuperar</Button>
+        <Button type="submit" data-cy="recover-button">Recover</Button>
         {message && <p>{message}</p>}
       </form>
-        <Link to="/login">
-          <Button type="submit">Voltar ao login</Button>
-        </Link>      
+        <br></br><a href="/login" className={styles.underline}>Login here</a>
+        <a className={styles.underline} onClick={handleForgotEmail}>Forgot my email</a>
     </section>
   );
 };
