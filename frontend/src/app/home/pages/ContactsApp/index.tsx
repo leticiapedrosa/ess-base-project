@@ -16,6 +16,8 @@ const ContactsApp: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [selectedContact, setSelectedContact] = useState<Icontact | null>(null);
+  const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
+  const [contactToDelete, setContactToDelete] = useState<Icontact | null>(null);
   const [newContact, setNewContact] = useState<Icontact>({
     id: '',
     name: '',
@@ -52,15 +54,25 @@ const ContactsApp: React.FC = () => {
     setSelectedContact(contact);
    };
 
-  const handleDeleteContact = async (contactId: string) => {
-    try {
-      await axios.delete(`http://localhost:5001/api/contacts/${contactId}/info/delete/`);
-      fetchContacts();
-      setSelectedContact(null);
-    } catch (error) {
-      console.error('Erro ao excluir conversa:', error);
+  const handleDeleteContact = (contactId: string) => {
+    const contact = contacts.find(c => c.id === contactId);
+    if (contact) {
+       setContactToDelete(contact);
+       setShowConfirmDeleteModal(true);
     }
-  };
+   };
+  
+   
+  const handleDeleteContactConfirm = async (contactId: string) => {
+    try {
+       await axios.delete(`http://localhost:5001/api/contacts/${contactId}/info/delete/`);
+       fetchContacts();
+       setSelectedContact(null);
+    } catch (error) {
+       console.error('Erro ao excluir conversa:', error);
+    }
+   };
+   
 
   const handleAddContact = async () => {
 
@@ -111,7 +123,7 @@ const ContactsApp: React.FC = () => {
             </li>
           ))}
         </ul>
-
+        {contacts.length === 0 && <p> Não há contatos salvos :( </p>}
       {selectedContact && (
           <div className={styles.contactDetails}>
             <div className={styles.contactHeader}>
@@ -127,6 +139,26 @@ const ContactsApp: React.FC = () => {
             <button onClick={() => setSelectedContact(null)}>Fechar</button>
           </div>
         )}
+
+        {showConfirmDeleteModal && (
+        <div className={styles.confirmDeleteModalOverlay}>
+          <div className={styles.confirmDeleteModal}>
+            <p>Tem certeza de que deseja excluir o contato {contactToDelete?.name}?</p>
+            <button 
+              className={styles.confirmButton} 
+              onClick={() => {
+              if (contactToDelete) {
+                handleDeleteContactConfirm(contactToDelete.id);
+              }
+              setShowConfirmDeleteModal(false);
+            }}> Sim </button>
+            <button 
+            className={styles.cancelButton} 
+            onClick={() => setShowConfirmDeleteModal(false)}> Não </button>
+        </div>
+        </div>
+        )}
+
       </div>  
 
     <div className={styles.addContactForm}>
