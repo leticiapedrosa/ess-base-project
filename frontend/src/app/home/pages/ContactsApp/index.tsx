@@ -123,7 +123,7 @@ const ContactsApp: React.FC = () => {
             </li>
           ))}
         </ul>
-        {contacts.length === 0 && <p> Não há contatos salvos :( </p>}
+        {/*{contacts.length === 0 && <p> Não há contatos salvos :( </p>}*/}
       {selectedContact && (
           <div className={styles.contactDetails}>
             <div className={styles.contactHeader}>
@@ -136,7 +136,7 @@ const ContactsApp: React.FC = () => {
             </div>
             <p>Número: {selectedContact.number}</p>
             <p>Mais: {selectedContact.more}</p>
-            <button onClick={() => setSelectedContact(null)}>Fechar</button>
+            <button className={styles.closeInfoButton} onClick={() => setSelectedContact(null)}>Fechar</button>
           </div>
         )}
 
